@@ -17,7 +17,9 @@ theme:{
   extend: {
     colors: {
       primary : '#389b51',
-      secondary : '#0281ff',
+      secondary : '#319452',
+      with: '#ffffff',
+      gray: '#d4d4d4',
     },
   },
 },
