@@ -1,11 +1,9 @@
 import {useState} from 'react'
 import {Link} from 'react-router'
 function Auth (){
-    const [batatinha, setBatatinha]= useState(0);
+    const [email,setEmail] = useState("")   
+    const [password,setPass] = useState("")   
 
-    function sub(){
-        setBatatinha(batatinha - 1)
-    }
 
     return(
     
@@ -15,13 +13,27 @@ function Auth (){
            
             
             <h2 className="text-white">Login</h2>
-            <div className="bg-red-400 rounded-full p-2" onClick={sub}>-</div>
-            {batatinha} 
-            <div className="bg-blue-400 rounded-full p-2" onClick={()=> setBatatinha (batatinha +1 )} >+</div>
+            
          <form className="flex h-full flex-col  gap-[20]">
-
-           <span className="text-left "> Email:</span> <input className="flex  hover:bg-gray hover:shadow-inner " id="iEmailLogin" type="email" placeholder="Digite seu email: ex: jaoa@gmail.com" /> 
-            <span className="text-left ">Senha:</span> <input id="iPassLogin" className=" hover:bg-gray hover:shadow-inner" type="password" placeholder="Letra maiúscula e números" />
+           <span className="text-left "> Email:</span> 
+            <input
+            className="text-black"
+                type="email"
+                value={email}
+                placeholder="Digite o seu email de cadastro"
+                onChange={(e) => setEmail(e.target.value)}
+                />
+            {email}
+            
+            <span className="text-left ">Senha:</span> 
+            <input
+            className="text-black"
+                type="password"
+                value={password}
+                placeholder="Digite sua senha"
+                onChange={(p) => setPass(p.target.value)}
+                />
+            {password}
             
             <div className="mx-auto text-left my-4"><Link className="mr-2 py-2 py-2 px-4 text-white hover:bg-secondary hover:shadow-inner rounded ml-auto shadow-md" to="/">Voltar</Link>
              <a id="formLogin" className="mr-2 py-2 py-2 px-4 text-white hover:bg-secondary hover:shadow-inner rounded ml-auto shadow-md" >Entrar</a></div>
