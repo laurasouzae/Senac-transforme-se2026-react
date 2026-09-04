@@ -5,7 +5,7 @@ function Home (){
 <div>
 
 
-      <nav className="flex items-center text-with py-4 px-6 bg-primary absolute fixed top-0 w-full shadow-lg">
+      <nav className="flex items-center text-with py-4 px-16 bg-primary absolute fixed top-0 w-full shadow-lg">
         <a className="mr-2 p-2 p-2 hover:bg-secondary" href="#about">Sobre</a>
         <a className="mr-2 p-2 p-2 hover:bg-secondary" href="#prices">Preços</a>
         <a className="mr-2 p-2 p-2 hover:bg-secondary" href="#features">Benefícios</a>

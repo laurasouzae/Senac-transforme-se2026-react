@@ -19,7 +19,7 @@ theme:{
       primary : '#389b51',
       secondary : '#319452',
       with: '#ffffff',
-      gray: '#d4d4d4',
+      red: '#ff0101',
     },
   },
 },
