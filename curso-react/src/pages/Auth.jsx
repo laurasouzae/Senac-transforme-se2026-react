@@ -1,9 +1,10 @@
 import {useState} from 'react'
-import {Link} from 'react-router'
+import {Link, useNavigate} from 'react-router'
 function Auth (){
     const [email,setEmail] = useState("")   
     const [password,setPass] = useState("")   
     const [user,setUser] = useState("")
+    const nav = useNavigate("")
 
         function handleLogin(){
             const users=JSON.parse(localStorage.getItem('users'))
@@ -15,11 +16,11 @@ function Auth (){
                 setMensagem ("Usuário não encontrado")
             }
 
-            if(user.pass=pass){
+            if(user.senha=password){
                  //manda para a tela do painel
 
                  localStorage.setItem('Logado',JSON.stringify(user));
-                    setUser({})
+                    nav("/painel")
 
                  }else{
                     
