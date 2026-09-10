@@ -18,13 +18,10 @@ function Auth (){
 
             if(user.senha=password){
                  //manda para a tela do painel
-
-                 localStorage.setItem('Logado',JSON.stringify(user));
+                 localStorage.setItem('logado',JSON.stringify(user));
                     nav("/painel")
 
-                 }else{
-                    
-
+                 }else{             
                     setMensagem ("Senha incorreta")
                     
                      //usando a mesma useState de mensagem
@@ -33,7 +30,6 @@ function Auth (){
 
     return(
     
-        
         <div className="mt-16 bg-primary flex flex-col text-white rounded-lg text-center w-1/3 mx-auto py-4 shadow-lg px-4">
             
            
@@ -65,7 +61,7 @@ function Auth (){
              <a onClick={handleLogin} className="mr-2 py-2 py-2 px-4 text-white hover:bg-secondary hover:shadow-inner rounded ml-auto shadow-md" >Entrar</a></div>
             
         </form>
-         
+    
         </div>
       
     )
