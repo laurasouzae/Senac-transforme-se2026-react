@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router'
+import {supabase} from '../../utils/supabase'; 
+
 function Painel() {
     const [modal, setModal] = useState(false) //bollean
     const [users, setUsers] = useState([]) //vetor
@@ -7,7 +8,8 @@ function Painel() {
     const [logado, setLogado] = useState()
     const [isEdit, setIsEdit] = useState(false)
     const [index, setIndex] = useState(-1)
-  
+    const [spiner, setSpiner] = useState(false)
+  const [msg, setMsg] = useState('')
 
 
     useEffect(
@@ -41,21 +43,21 @@ function Painel() {
 
     }
 
-    function handleRegister() {
-        let newUsers
-        if (index != -1) {
-            newUsers = [...users]
-            newUsers[index] = user;
-        } else {
-            newUsers = [...users, user]
-        }
+    async function handleRegister() {
+        setSpiner(true)
+        const {data: authData, error: authError} = await supabase.auth.signUp({
+            email: user.email,
+            password: user.senha
+        });
 
-        setUsers(newUsers);
-        localStorage.setItem('users', JSON.stringify(newUsers));
-        setUser({})
-        setModal(false);
-        setIndex(-1)
-        setIsEdit(false)
+        if(authError){
+            setMsg(authError)
+            setSpiner(false)
+            return;
+        }
+        setSpiner(false)
+
+
     }
     return (
 
@@ -88,8 +90,8 @@ function Painel() {
                                     <a onClick={() => setIsEdit(false)} className="rounded cursor-pointer mt-5 bg-red-500 text-white text-center rounded-md py-2"> Cancelar</a>
                                 )
                                 }
-                                <a onClick={handleRegister} className="rounded cursor-pointer mt-5 bg-primary text-white text-center rounded-md py-2"> Salvar</a>
-
+                                <a onClick={handleRegister} className="rounded cursor-pointer mt-5 bg-primary text-white text-center rounded-md py-2"> {spiner? '...' :'Salvar'}</a>
+                                   {msg} 
 
 
 
