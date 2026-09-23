@@ -18,7 +18,7 @@ function Painel() {
             setLogado(logado)
         },
         []
-    );
+    );                            
 
     useEffect(
         () => {
@@ -51,14 +51,47 @@ function Painel() {
         });
 
         if(authError){
-            setMsg(authError)
+
+            //console.log(authError.message)
+            setMsg(authError.message)
             setSpiner(false)
             return;
         }
-        setSpiner(false)
+        
+         if(!authData){
+            setMsg("Não foi possível cadastrar usuário, verifique sua conexão com a internet")
+            setSpiner(false)
+            return;
+         }
 
+         const{data:loginData, error: loginError
+         }=await supabase.auth.signInWithPassword({
+            email: user.email,
+            password: user.senha
+         });
+
+         const{error: profileError } = await supabase.from ('profiles').insert({
+            user_id: loginData.user.id,
+            nome: user.nome,
+            aniversário: user.nascimento,
+            cargo: user.cargo,
+            sala: user.sala
+
+         });
+
+         if(profileError){
+            setMsg(profileError.message);
+             setSpiner(false)
+            return;
+               
+         };
+        
+         
+
+         setSpiner(false)
 
     }
+    
     return (
 
 
@@ -85,6 +118,10 @@ function Painel() {
                                 <input onChange={(e) => setUser({ ...user, senha: e.target.value })} className="rounded bg-gray-100 hover:bg-gray-200 " id="iPass" type="password" placeholder="Letra maiuscula e números" />
                                 Data de nascimento:
                                 <input value={user.nascimento} onChange={(e) => setUser({ ...user, nascimento: e.target.value })} className="rounded bg-gray-100 hover:bg-gray-200" id="iBirth" type="date" />
+                                Cargo:
+                                <input value={user.cargo} onChange={(e) => setUser({ ...user, cargo: e.target.value })} className="rounded bg-gray-100 hover:bg-gray-200" id="iBirth" type="text" />
+                                Sala:
+                                <input value={user.sala} onChange={(e) => setUser({ ...user, sala: e.target.value })} className="rounded bg-gray-100 hover:bg-gray-200" id="iBirth" type="text" />
 
                                 {index != -1 && (
                                     <a onClick={() => setIsEdit(false)} className="rounded cursor-pointer mt-5 bg-red-500 text-white text-center rounded-md py-2"> Cancelar</a>
