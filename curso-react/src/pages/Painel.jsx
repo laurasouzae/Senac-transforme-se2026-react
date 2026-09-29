@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../utils/supabase';
+import { ToastSucess, useToast } from '../components/Toast';
 
 function Painel() {
     const [modal, setModal] = useState(false) //bollean
@@ -9,32 +10,31 @@ function Painel() {
     const [isEdit, setIsEdit] = useState(false)
     const [index, setIndex] = useState(-1)
     const [spiner, setSpiner] = useState(false)
-    const [msg, setMsg] = useState('')
+    const {msg, setMsg} = useToast()
 
 
     useEffect(
         () => {
-            const logado = JSON.parse(localStorage.getItem('logado'))
-            setLogado(logado)
+            
         },
         []
     );
 
     useEffect(
         () => {
-            const usersTemp = JSON.parse(localStorage.getItem('users'))
-            if (usersTemp) setUsers(usersTemp)
+            loadUsers()
         },
         []
     );
 
     //READ - LER
-    async function loadUser() {
+    async function loadUsers() {
         const { data, error } = await supabase.from('profiles').select('*')
         if (error) {
             setMsg(error.message)
             return;
         }
+        setUsers(data)
     }
 
     function updateUser(indice) {
@@ -56,18 +56,16 @@ function Painel() {
             }
     }
 
-    async function deleteUser(id) {
-        setSpiner(true)
-        const { error } = await supabase
+    async function deleteUser(index) {
+        const { data, error} = await supabase
             .from('profiles')
             .delete()
             .eq('id',index);
             if (error){
                 setMsg(error.message)
-                setSpiner(false)
                 return;
             }
-
+            loadUsers()
 
     }
 
@@ -108,7 +106,7 @@ function Painel() {
             return;
 
         };
-
+        loadUsers()
 
 
         setSpiner(false)
@@ -135,7 +133,7 @@ function Painel() {
                             <form className="flex flex-col text-black text-left">
                                 Nome:
                                 <input value={user.nome} onChange={(e) => setUser({ ...user, nome: e.target.value })} className="rounded bg-gray-100 hover:bg-gray-200" id="iName" type="text" placeholder="Digite seu nome completo" />
-                                {!index == -1 && (
+                                {index == -1 && (
                                     <>
                                         Email:
                                         <input value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} className="rounded bg-gray-100 hover:bg-gray-200" id="iEmail" type="email" placeholder="Digite seu melhor email" />
@@ -166,7 +164,7 @@ function Painel() {
                                     className="rounded cursor-pointer mt-5 bg-primary text-white text-center rounded-md py-2">
                                     {spiner ? '...' : 'Salvar'}
                                 </a>
-                                {msg}
+                                
 
 
 
@@ -196,10 +194,10 @@ function Painel() {
                     {users.map((u) => (
                         <tr key={u.id}>
                             <td>{u.nome}</td>
-                            <td>{u.email}</td>
+                            <td>{u.cargo}</td>
                             <td>
                                 <a className='cursor-pointer px-3 mx-4 houver:shadow shadow-md text-white rounded-full bg-green-500 ' onClick={() => updateUser(u)} >V</a>
-                                <a className='cursor-pointer px-3 mx-4 houver:shadow shadow-md text-white rounded-full bg-red-500' onClick={() => deleteUser(u)}>X</a>
+                                <a className='cursor-pointer px-3 mx-4 houver:shadow shadow-md text-white rounded-full bg-red-500' onClick={() => deleteUser(u.id)}>X</a>
                             </td>
                         </tr>
                     ))}
@@ -208,8 +206,9 @@ function Painel() {
             </table>
 
             <a onClick={() => { setModal(true); setIsEdit(true) }} className="hover:bg-green-700 font-bold text-xl cursor-pointer rounded-full bg-primary text-white px-4 py-1 fixed bottom-0 right-0 "> + </a>
+                
 
-
+            <ToastSucess msg={msg} setMsg={setMsg}/>
 
 
 
