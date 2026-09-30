@@ -3,6 +3,7 @@ import Home from './pages/Home.jsx';
 import Auth from './pages/Auth.jsx';
 import Painel from './pages/Painel.jsx';
 
+
 function App() {
   /*tudo de fora é js*/
 

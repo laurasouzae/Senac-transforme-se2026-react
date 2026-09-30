@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../utils/supabase';
 import { ToastSucess, useToast } from '../components/Toast';
+import { Template } from '../components/Template';
+
 
 function Painel() {
     const [modal, setModal] = useState(false) //bollean
@@ -39,10 +41,11 @@ function Painel() {
 
     function updateUser(indice) {
         setModal(true)
-        setUser(user)
-        setIndex(user.id)
+        setUser(users)
+        setIndex(users.id)
+        loadUsers()
     }
-
+    
     async function editUser(index) {
         setSpiner(true)
         const { data, error } = await supabase
@@ -114,7 +117,7 @@ function Painel() {
     }
 
     return (
-
+        <Template>
 
         <div className="mt-16 bg-primary flex flex-col text-white rounded-lg text-center w-1/2 mx-auto py-4 shadow-lg px-4">
             <h3><b>Bem vindo, {logado?.nome}</b> </h3>
@@ -219,7 +222,7 @@ function Painel() {
 
 
         </div>
-
+        </Template>
     )
 
 }

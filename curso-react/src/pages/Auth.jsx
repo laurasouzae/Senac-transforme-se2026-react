@@ -1,5 +1,7 @@
 import {useState} from 'react'
 import {Link, useNavigate} from 'react-router'
+
+
 function Auth (){
     const [email,setEmail] = useState("")   
     const [password,setPass] = useState("")   
@@ -29,7 +31,7 @@ function Auth (){
         }
 
     return(
-    
+        <Template>
         <div className="mt-16 bg-primary flex flex-col text-white rounded-lg text-center w-1/3 mx-auto py-4 shadow-lg px-4">
             
            
@@ -63,6 +65,7 @@ function Auth (){
         </form>
     
         </div>
+        </Template>
       
     )
 
